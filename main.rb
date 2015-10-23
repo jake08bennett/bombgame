@@ -35,11 +35,9 @@ class GameWindow < Gosu::Window
       @bullets << @player.shoot(self)
     end
     
-    
-    
     @player.move
     @player.collect_stars(@stars)
-    @bullet.collide(@stars)
+    
 
     if rand(100) < 4 and @stars.size < 10 then
       @stars.push(Star.new(@star_anim))
@@ -49,11 +47,12 @@ class GameWindow < Gosu::Window
   def draw
     @player.draw
     @stars.each { |star| star.draw }
-    @font.draw("Lives: #{@player.score}", 10, 10, ZOrder::UI, 1.0, 1.0, 0xffffff00)
-
+    @font.draw("Lives: #{@player.lives}", 10, 10, ZOrder::UI, 1.0, 1.0, 0xffffff00)
+    @font.draw("Score: #{@player.score}", 10, 50, ZOrder::UI, 1.0, 1.0, 0xffffff00)
     @bullets.each do |bullet|
       bullet.update
       bullet.draw
+      bullet.collide(@stars)
     end
   end
   

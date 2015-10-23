@@ -1,14 +1,16 @@
 require "gosu"
 require_relative 'zorder'
 
+
 class Player
 
-  attr_reader :score
+  attr_reader :score, :lives
   
   def initialize(window)
     @image = Gosu::Image.new(window, "media/trump.png", false)
     @x = @y = @vel_x = @vel_y = @angle = 0.0
-    @score = 5
+    @lives = 5
+    @score = 0
   end
 
   def warp(x, y)
@@ -24,7 +26,7 @@ class Player
   end
   
   def shoot(window)
-    bullet = Bullet.new(window)
+    bullet = Bullet.new(window, @angle)
     bullet.warp(@x, @y)
     bullet
   end
@@ -53,16 +55,20 @@ class Player
     @image.draw_rot(@x, @y, 1, @angle)
   end
   
-    def collect_stars(stars)
+  def collect_stars(stars)
     stars.reject! do |star|
       if Gosu::distance(@x, @y, star.x, star.y) < 35 then
-        @score -= 1
-        close if @score == 0
+        @lives -= 1
+        close if @lives == 0
         true
       else
         false
       end
     end
+	end
+
+  def score
+    @score
   end
   
 end
