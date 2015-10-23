@@ -6,6 +6,8 @@ require_relative 'zorder'
 
 
 class GameWindow < Gosu::Window
+
+
   def initialize
     super 640, 480, false
     self.caption = "d trump"
@@ -45,14 +47,18 @@ class GameWindow < Gosu::Window
   end
 
   def draw
+    theScore = 0
     @player.draw
     @stars.each { |star| star.draw }
     @font.draw("Lives: #{@player.lives}", 10, 10, ZOrder::UI, 1.0, 1.0, 0xffffff00)
-    @font.draw("Score: #{@player.score}", 10, 50, ZOrder::UI, 1.0, 1.0, 0xffffff00)
+    @font.draw("Score: #{theScore}", 10, 50, ZOrder::UI, 1.0, 1.0, 0xffffff00)
     @bullets.each do |bullet|
       bullet.update
       bullet.draw
       bullet.collide(@stars)
+      if bullet.collide(@stars)
+        theScore += 1
+      end
     end
   end
   

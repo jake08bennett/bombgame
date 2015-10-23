@@ -46,5 +46,9 @@ class Bullet
       end
     end
   end
+
+  def score
+    @score
+  end
   
 end
